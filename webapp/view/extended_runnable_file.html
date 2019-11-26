@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+
+<body>
+   <div style="border-radius: 5px;background-color:white;padding:20px;width:1057px;height:80px;border-color:#000000;border-style: solid;border-width: 1px"><input type="text" id="url" name="UTMFix" value="utm_source=clarivate&amp;utm_medium=email&amp;utm_content=external&amp;utm_content_id=" readonly="" size="110" style="font-family: Arial;font-size: 14px; background-color:#e5e6e6;border: 1px solid #808080;display: inline-block;border-radius: 3px;box-sizing: border-box;padding: 5px 5px;"></div>
+<div style="border-radius: 5px;background-color: #f2f2f2;padding:0px;position: absolute; top:29px;left:860px"><input type="text" name="UTMCamp" id="cmp" size="25" style="font-family: Arial;font-size:14px;border: 1px solid #808080;display: inline-block;border-radius: 3px;box-sizing: border-box;padding: 5px 5px;"></div>
+<div style="position: absolute; top:80px;left:860px;"><button type="button" id="create" style="font-family: Arial;font-size:15px;border:1px solid #000000;display:inline-block;border-radius:3px;padding: 5px;width:100px;height:30px;background-color:#e5e6e6">Create File</button></div>
+<div style="position: absolute; top:90px;left:740px;"><a id="downloadlink" style="display:none;font-family: Arial;font-size:15px">Download File</a></div>
+    <script>
+        
+
+
+        function getUrlVars() {
+            var url = window.location.href
+            var dec = decodeURI(url);
+            var vars = {};
+            var parts = dec.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+
+        var user = getUrlVars()["CreatedBy"];
+        var contId = getUrlVars()["Id"]
+        var baseurl = "utm_source=clarivate&utm_medium=email&utm_content=external&utm_content_id=";
+        var alias = "&utm_alias=";
+        var strcont = contId.concat(alias);
+        var strusr = strcont.concat(user);
+        var camp = "&utm_campaign=";
+        var strcmp = strusr.concat(camp);
+        var urlfnl = baseurl.concat(strcmp);
+        document.getElementById("url").value = urlfnl;
+
+
+
+        (function() {
+            var textFile = null,
+                makeTextFile = function(text) {
+                    var data = new Blob([text], {
+                        type: 'text/plain'
+                    });
+                    if (textFile !== null) {
+                        window.URL.revokeObjectURL(textFile);
+                    }
+                    textfile = window.URL.createObjectURL(data);
+                    return textfile;
+                };
+            var create = document.getElementById('create');
+            create.addEventListener('click', function() {
+                var link = document.getElementById('downloadlink');
+                // var str = '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body></body></html>';
+                var temp = document.getElementById('cmp').value;
+                // var res = str.replace(/&cntid/g, temp);
+                var file = temp.concat(".html");
+                link.href = makeTextFile(dwnload_old);
+                link.download = file;
+                link.style.display = 'block';
+            }, false);
+        })();
+    </script>
+</body>
+
+</html>
